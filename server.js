@@ -2,11 +2,11 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const bcrypt = require('bcryptjs')
 
 const userRoutes = require('./routes/user')
 const objectRoutes = require('./routes/objects')
 const User = require('./models/User')
-const bcrypt = require('bcryptjs')
 
 const app = express()
 
@@ -35,8 +35,12 @@ async function crearAdmin() {
   const existe = await User.findOne({ username: 'GUSTAVOPERALTA' })
   if (!existe) {
     const hashed = await bcrypt.hash('admin123', 10)
-    const nuevo = new User({ username: 'GUSTAVOPERALTA', password: hashed })
+    const nuevo = new User({
+      username: 'GUSTAVOPERALTA',
+      password: hashed,
+      legajo: '0001' // ✅ Campo obligatorio agregado
+    })
     await nuevo.save()
-    console.log('Administrador creado: GUSTAVOPERALTA / admin123')
+    console.log('Administrador creado: GUSTAVOPERALTA / admin123 / legajo 0001')
   }
 }
