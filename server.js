@@ -10,11 +10,17 @@ const User = require('./models/User')
 
 const app = express()
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({
+  origin: ['https://police-frontend.onrender.com', 'http://localhost:5173']
+}))
 app.use(express.json())
 
 app.use('/api/users', userRoutes)
 app.use('/api/objects', objectRoutes)
+
+app.get('/', (req, res) => {
+  res.send('Servidor backend de la Aplicación Policial activo')
+})
 
 const PORT = process.env.PORT || 5000
 const MONGO_URI = process.env.MONGO_URI
@@ -38,7 +44,7 @@ async function crearAdmin() {
     const nuevo = new User({
       username: 'GUSTAVOPERALTA',
       password: hashed,
-      legajo: '0001' // ✅ Campo obligatorio agregado
+      legajo: '0001'
     })
     await nuevo.save()
     console.log('Administrador creado: GUSTAVOPERALTA / admin123 / legajo 0001')
