@@ -28,7 +28,9 @@ router.get('/search', auth, async (req, res) => {
         { marca: { $regex: q } },
         { modelo: { $regex: q } },
         { color: { $regex: q } },
-        { denunciante: { $regex: q } }
+        { denunciante: { $regex: q } },
+{ dni_denunciante: { $regex: q } }
+
       ]
     }).sort({ fecha: -1 })
     res.json(resultados)
